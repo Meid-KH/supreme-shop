@@ -46,7 +46,7 @@ class Items extends Component {
           }}
         >
           {({ data, error, loading }) => {
-            console.log(data.items);
+            // console.log(data.items);
 
             // if there are errors
             if (error) return <p>Errors : {error.message}</p>;
