@@ -43,7 +43,7 @@ class Signup extends Component {
               this.setState({ name: "", email: "", password: "" });
             }}
           >
-            <h2>Sign Up for An Account</h2>
+            <h2>Sign Up for An Account </h2>
             <Error erroe={error} />
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="name">
