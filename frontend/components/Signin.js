@@ -5,25 +5,19 @@ import Form from "./styles/Form";
 import Error from "./ErrorMessage";
 import { CURRENT_USER_QUERY } from "./LoggedUser";
 
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION(
-    $name: String!
-    $email: String!
-    $password: String!
-  ) {
-    signup(name: $name, email: $email, password: $password) {
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
       id
       name
       email
-      password
       permissions
     }
   }
 `;
 
-class Signup extends Component {
+class Signin extends Component {
   state = {
-    name: "",
     email: "",
     password: ""
   };
@@ -32,35 +26,25 @@ class Signup extends Component {
     this.setState({ [name]: value });
   };
   render() {
-    const { name, email, password } = this.state;
+    const { email, password } = this.state;
     return (
       <Mutation
-        mutation={SIGNUP_MUTATION}
+        mutation={SIGNIN_MUTATION}
         variables={this.state}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
-        {(signup, { data, loading, error }) => (
+        {(signin, { loading, error }) => (
           <Form
             method="post"
             onSubmit={async e => {
               e.preventDefault();
-              await signup();
-              this.setState({ name: "", email: "", password: "" });
+              await signin();
+              this.setState({ email: "", password: "" });
             }}
           >
-            <h2>Sign Up for An Account </h2>
+            <h2>Sign in to your Account </h2>
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
-              <label htmlFor="name">
-                <input
-                  type="text"
-                  name="name"
-                  value={name}
-                  placeholder="Name.."
-                  required
-                  onChange={this.handleChange}
-                />
-              </label>
               <label htmlFor="email">
                 <input
                   type="email"
@@ -81,7 +65,7 @@ class Signup extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <button type="submit">Sign Up</button>
+              <button type="submit">Sign In</button>
             </fieldset>
           </Form>
         )}
@@ -90,4 +74,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default Signin;
